@@ -117,10 +117,11 @@ Follow [Reddit launch guide](https://developers.reddit.com/docs/guides/launch/la
 
 TriageGuard uses the **HTTP** permission (Groq API). Reddit requires **Privacy Policy** and **Terms & Conditions** URLs before `publish`:
 
-1. Host `docs/PRIVACY.md` and `docs/TERMS.md` at public URLs (e.g. push to GitHub and use the blob links).
-2. Replace any remaining placeholders in those files (contact: u/Status-Carob5526).
-3. Open [developer settings](https://developers.reddit.com/apps/triageguard/developer-settings) → add both links.
-4. Run publish again:
+1. Privacy and terms are hosted on GitHub:
+   - **Privacy:** https://github.com/nag-gude/triageguard/blob/main/docs/PRIVACY.md
+   - **Terms:** https://github.com/nag-gude/triageguard/blob/main/docs/TERMS.md
+2. Open [developer settings](https://developers.reddit.com/apps/triageguard/developer-settings) → paste both links → **Save**.
+3. Run publish again:
 
 ```bash
 npx devvit publish

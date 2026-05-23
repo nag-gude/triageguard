@@ -52,4 +52,4 @@ These terms may be updated. Continued use after updates constitutes acceptance o
 
 ## Contact
 
-Questions: Reddit [u/Status-Carob5526](https://www.reddit.com/user/Status-Carob5526) or your project repository.
+Questions: Reddit [u/Status-Carob5526](https://www.reddit.com/user/Status-Carob5526) or [github.com/nag-gude/triageguard](https://github.com/nag-gude/triageguard).

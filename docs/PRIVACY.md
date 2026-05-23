@@ -50,4 +50,4 @@ This policy may be updated when the app changes. The “Last updated” date wil
 
 ## Contact
 
-Questions about this policy: contact the app owner via Reddit ([u/Status-Carob5526](https://www.reddit.com/user/Status-Carob5526)) or your project repository issues page.
+Questions about this policy: contact the app owner via Reddit ([u/Status-Carob5526](https://www.reddit.com/user/Status-Carob5526)) or [GitHub Issues](https://github.com/nag-gude/triageguard/issues).
