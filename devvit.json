@@ -1,0 +1,30 @@
+{
+  "$schema": "https://developers.reddit.com/schema/config-file.v1.json",
+  "name": "triageguard",
+  "blocks": {
+    "entry": "src/main.tsx",
+    "triggers": [
+      "onAppInstall",
+      "onPostReport",
+      "onCommentReport",
+      "onAutomoderatorFilterPost",
+      "onAutomoderatorFilterComment"
+    ]
+  },
+  "permissions": {
+    "reddit": {
+      "enable": true,
+      "scope": "moderator"
+    },
+    "redis": true,
+    "http": {
+      "enable": true,
+      "domains": [
+        "api.groq.com"
+      ]
+    }
+  },
+  "dev": {
+    "subreddit": "triageguard_dev"
+  }
+}

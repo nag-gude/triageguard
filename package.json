@@ -1,0 +1,28 @@
+{
+  "name": "triageguard",
+  "version": "0.0.0",
+  "description": "Queue intelligence for Reddit moderators — prioritized, rule-aware mod triage on Devvit",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "init": "devvit init",
+    "login": "devvit login",
+    "dev": "devvit playtest",
+    "upload": "devvit upload",
+    "publish": "devvit publish",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@devvit/public-api": "0.12.21"
+  },
+  "devDependencies": {
+    "devvit": "0.12.21",
+    "typescript": "5.7.2",
+    "vitest": "2.1.8"
+  },
+  "engines": {
+    "node": ">=22.2.0"
+  },
+  "license": "BSD-3-Clause"
+}
