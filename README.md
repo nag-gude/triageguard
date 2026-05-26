@@ -4,6 +4,8 @@
 
 **Queue intelligence for moderators** — a [Devvit](https://developers.reddit.com/docs) mod tool that turns chaotic reports into a **prioritized, rule-aware moderation workflow** with explainable reasoning and one-click actions.
 
+**Repository:** [github.com/nag-gude/triageguard](https://github.com/nag-gude/triageguard)
+
 > TriageGuard helps moderators focus on the most dangerous content first by turning chaotic reports into a prioritized, rule-aware moderation workflow with explainable reasoning and one-click actions.
 
 ## Hackathon
@@ -16,7 +18,7 @@ Built for the [Reddit Mod Tools and Migrated Apps Hackathon](https://mod-tools-m
 - Heuristic urgency scoring (0–100) with risk bands: Critical / High / Routine / Likely OK
 - **Explainability panel** — why prioritized, matched wiki rule, suggested action
 - Wiki rules cache + optional Groq rule enrichment for Critical/High
-- Custom post **Mod Triage Dashboard** (moderator-only)
+- **Devvit Web** custom post dashboard (React, moderator-only)
 - Menu actions: **Approve**, **Remove** (confirmation form), **Open Dashboard**
 - `auditMode` on by default
 
@@ -35,7 +37,8 @@ cd triageguard
 npm install
 npm run login          # or: npx devvit login
 npm run init           # register app on Reddit (once) — opens browser wizard
-npm run dev            # first run uploads + creates playtest subreddit
+npm run build          # compile client + server (required before upload)
+npm run dev            # build + playtest
 npx devvit settings set llmApiKey    # optional — after first playtest/upload
 ```
 
@@ -59,7 +62,7 @@ npm run typecheck
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | System design & diagrams |
 | [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md) | Code map & flows |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Upload, publish, settings |
-| [docs/UI_UX.md](docs/UI_UX.md) | Dashboard UX, visual system, future React client |
+| [docs/UI_UX.md](docs/UI_UX.md) | Dashboard UX & visual system |
 
 ## Project structure
 
@@ -67,12 +70,12 @@ npm run typecheck
 triageguard/
 ├── assets/
 │   └── Thumbnail.png    # Project thumbnail / Devpost hero
-├── devvit.json          # App manifest (permissions, blocks entry)
+├── devvit.json          # App manifest (post, server, triggers, menu)
 ├── src/
-│   ├── main.tsx         # Triggers, settings, menus, custom post registration
+│   ├── client/          # React dashboard (Devvit Web)
+│   ├── server/          # Hono API, triggers, menu handlers
 │   ├── config/          # Scoring weights & constants
-│   ├── services/        # Ingest, store, wiki, LLM
-│   └── ui/              # Blocks dashboard (explain panel)
+│   └── services/        # Ingest, store, wiki, LLM
 ├── tests/               # Vitest (scoring)
 └── docs/
 ```

@@ -1,15 +1,23 @@
 {
   "$schema": "https://developers.reddit.com/schema/config-file.v1.json",
   "name": "triageguard",
-  "blocks": {
-    "entry": "src/main.tsx",
-    "triggers": [
-      "onAppInstall",
-      "onPostReport",
-      "onCommentReport",
-      "onAutomoderatorFilterPost",
-      "onAutomoderatorFilterComment"
-    ]
+  "post": {
+    "dir": "dist/client",
+    "entrypoints": {
+      "default": {
+        "entry": "splash.html",
+        "height": "regular",
+        "inline": true
+      },
+      "dashboard": {
+        "entry": "index.html",
+        "height": "tall"
+      }
+    }
+  },
+  "server": {
+    "dir": "dist/server",
+    "entry": "index.cjs"
   },
   "permissions": {
     "reddit": {
@@ -19,10 +27,102 @@
     "redis": true,
     "http": {
       "enable": true,
-      "domains": [
-        "api.groq.com"
-      ]
+      "domains": ["api.groq.com"]
     }
+  },
+  "triggers": {
+    "onAppInstall": "/internal/triggers/app-install",
+    "onPostReport": "/internal/triggers/post-report",
+    "onCommentReport": "/internal/triggers/comment-report",
+    "onAutomoderatorFilterPost": "/internal/triggers/automod-filter-post",
+    "onAutomoderatorFilterComment": "/internal/triggers/automod-filter-comment"
+  },
+  "menu": {
+    "items": [
+      {
+        "label": "TriageGuard: Open Dashboard",
+        "description": "Open the prioritized mod triage dashboard",
+        "forUserType": "moderator",
+        "location": "subreddit",
+        "endpoint": "/internal/menu/open-dashboard"
+      },
+      {
+        "label": "TriageGuard: Approve",
+        "description": "Approve and clear from triage list",
+        "forUserType": "moderator",
+        "location": ["post", "comment"],
+        "endpoint": "/internal/menu/approve"
+      },
+      {
+        "label": "TriageGuard: Remove",
+        "description": "Remove with confirmation (audit mode)",
+        "forUserType": "moderator",
+        "location": ["post", "comment"],
+        "endpoint": "/internal/menu/remove"
+      }
+    ]
+  },
+  "forms": {
+    "removeConfirm": "/internal/form/remove-submit"
+  },
+  "settings": {
+    "global": {
+      "llmApiKey": {
+        "type": "string",
+        "label": "Groq API key (app secret)",
+        "isSecret": true
+      },
+      "llmModel": {
+        "type": "string",
+        "label": "Groq model id",
+        "defaultValue": "llama-3.1-8b-instant"
+      }
+    },
+    "subreddit": {
+      "auditMode": {
+        "type": "boolean",
+        "label": "Audit mode (confirm removals)",
+        "defaultValue": true
+      },
+      "enableLlm": {
+        "type": "boolean",
+        "label": "Enable rule enrichment (Critical/High)",
+        "defaultValue": true
+      },
+      "sensitivity": {
+        "type": "select",
+        "label": "Scoring sensitivity",
+        "options": [
+          { "label": "Strict", "value": "strict" },
+          { "label": "Balanced", "value": "balanced" },
+          { "label": "Relaxed", "value": "relaxed" }
+        ],
+        "defaultValue": "balanced"
+      },
+      "customKeywords": {
+        "type": "string",
+        "label": "Custom keywords (comma-separated)",
+        "defaultValue": ""
+      },
+      "blockedDomains": {
+        "type": "string",
+        "label": "Blocked domains (comma-separated)",
+        "defaultValue": "bit.ly,tinyurl.com,crypto,binance"
+      },
+      "wikiRulesPage": {
+        "type": "string",
+        "label": "Wiki rules page name",
+        "defaultValue": "rules"
+      },
+      "llmMaxPerHour": {
+        "type": "number",
+        "label": "Max LLM calls per hour",
+        "defaultValue": 60
+      }
+    }
+  },
+  "scripts": {
+    "build": "npm run build:client && npm run build:server"
   },
   "dev": {
     "subreddit": "triageguard_dev"

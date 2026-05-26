@@ -1,5 +1,4 @@
 export const SCHEMA_VERSION = '1';
-export const CUSTOM_POST_NAME = 'triage-dashboard';
 export const DASHBOARD_TITLE = 'TriageGuard — Mod Triage';
 export const MAX_OPEN_ITEMS = 20;
 export const LLM_CACHE_TTL_SEC = 7 * 24 * 60 * 60;
@@ -19,6 +18,7 @@ export const FALLBACK_RULES_TEXT = `
 export const REDIS_KEYS = {
   schemaVersion: 'tg:schema_version',
   dashboardPostId: 'tg:dashboard_post_id',
+  modUsernames: 'tg:mod_usernames',
   wikiRules: 'tg:wiki:rules',
   wikiFetchedAt: 'tg:wiki:fetched_at',
   openQueue: 'tg:open',

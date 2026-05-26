@@ -1,25 +1,39 @@
 {
   "name": "triageguard",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Queue intelligence for Reddit moderators — prioritized, rule-aware mod triage on Devvit",
   "private": true,
   "type": "module",
   "scripts": {
     "init": "devvit init",
     "login": "devvit login",
-    "dev": "devvit playtest",
-    "upload": "devvit upload",
-    "publish": "devvit publish",
+    "dev": "npm run build && devvit playtest",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "vite build --config vite.client.config.ts",
+    "build:server": "node scripts/build-server.mjs",
+    "upload": "npm run build && devvit upload",
+    "publish": "npm run build && devvit publish",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.client.json",
+    "screenshots": "node scripts/generate-devpost-screenshots.mjs"
   },
   "dependencies": {
-    "@devvit/public-api": "0.12.21"
+    "@devvit/web": "^0.13.0",
+    "@hono/node-server": "^1.13.8",
+    "hono": "^4.7.4",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   },
   "devDependencies": {
-    "devvit": "0.12.21",
+    "@types/node": "^22.10.5",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "4.3.4",
+    "devvit": "^0.13.0",
+    "playwright": "^1.49.1",
     "typescript": "5.7.2",
-    "vitest": "2.1.8"
+    "vite": "6.0.7",
+    "vitest": "3.2.4"
   },
   "engines": {
     "node": ">=22.2.0"

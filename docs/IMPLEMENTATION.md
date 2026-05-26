@@ -4,7 +4,7 @@
 
 | Layer | Choice |
 |-------|--------|
-| Platform | Devvit Blocks (`@devvit/public-api` 0.12.21) |
+| Platform | Devvit Web (`@devvit/web` 0.12.21) — React client + Hono server |
 | Language | TypeScript (strict) |
 | Storage | Devvit Redis (`tg:` key prefix) |
 | LLM | Groq OpenAI-compatible API (`llama-3.1-8b-instant`) |
@@ -20,8 +20,9 @@ src/main.tsx
   ├── Devvit.configure(redis, redditAPI, http)
   ├── Devvit.addSettings(...)        # Installation + app secrets
   ├── Devvit.addTrigger(...)         # AppInstall + 4 ingest triggers
-  ├── Devvit.addCustomPostType(...)  # Dashboard render
-  └── Devvit.addMenuItem(...)        # Open dashboard, Approve, Remove
+  ├── post.entrypoints (React dashboard in dist/client)
+  ├── triggers → /internal/triggers/*
+  └── menu → /internal/menu/* (Open dashboard, Approve, Remove)
 
 src/services/ingest.ts
   └── ingestAndScore()               # Main pipeline entry
@@ -78,17 +79,17 @@ Run tests: `npm test`
 LLM prompt returns JSON: `category`, `matchedRule`, `oneLineWhy`, `confidence`.
 
 
-## Dashboard (Blocks UI)
+## Dashboard (Devvit Web / React)
 
-`TriageDashboardRoot` in `src/ui/dashboard.tsx`:
+`App` in `src/client/App.tsx` (fetches `/api/triage/*`):
 
-- **Mod gate** — compares current user to `getModerators()` list
+- **Mod gate** — `GET /api/triage/mod-check` compares user to moderators
 - **Band counters** — 🔴 🟠 🟡 🟢
 - **Filter tabs** — ALL / CRITICAL / HIGH / ROUTINE / LIKELY_OK
 - **Row** — band, confidence/score, author, one-line why
 - **Explain panel** — bulleted signals, matched rule quote, suggested action
-- **Actions** — Open on Reddit (`navigateTo`), Dismiss (Redis only)
-- **Approve/Remove** — via ⋮ menu on post/comment (not inline — Blocks limitation)
+- **Actions** — Open on Reddit (link), Dismiss (`POST /api/triage/dismiss`)
+- **Approve/Remove** — via ⋮ menu on post/comment (server menu handlers)
 
 Color palette (UX):
 

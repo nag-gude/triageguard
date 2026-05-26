@@ -6,13 +6,18 @@
     "strict": true,
     "skipLibCheck": true,
     "noEmit": true,
-    "jsx": "react",
-    "jsxFactory": "Devvit.createElement",
-    "jsxFragmentFactory": "Devvit.Fragment",
+    "jsx": "react-jsx",
     "types": ["node"],
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true
   },
-  "include": ["src/**/*", "tests/**/*"]
+  "include": [
+    "src/server/**/*",
+    "src/services/**/*",
+    "src/config/**/*",
+    "tests/**/*",
+    "vite.*.ts"
+  ],
+  "exclude": ["src/client"]
 }

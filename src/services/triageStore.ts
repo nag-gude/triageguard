@@ -1,4 +1,4 @@
-import type { RedisClient } from '@devvit/public-api';
+import type { RedisClient } from '@devvit/redis';
 import { MAX_OPEN_ITEMS, REDIS_KEYS, SCHEMA_VERSION } from '../config/constants.js';
 import type { BandCounts, RiskBand, TriageItem, TriageStatus } from '../types.js';
 

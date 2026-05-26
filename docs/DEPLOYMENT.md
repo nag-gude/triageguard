@@ -101,6 +101,7 @@ This runs `npx devvit playtest` (via `npm run dev`):
 ## 4. Upload (private listing)
 
 ```bash
+npm run build          # compiles Devvit Web client + server
 npm run upload
 # or: npx devvit upload
 ```
@@ -142,7 +143,8 @@ Prepare listing assets:
 After publish approval:
 
 ```bash
-npx devvit install triageguard@latest --subreddit your_sub_name
+npx devvit install triageguard_dev triageguard@latest
+# or: npx devvit install r/your_sub_name triageguard@latest
 ```
 
 Or install from App Directory UI as mod.

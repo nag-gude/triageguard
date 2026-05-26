@@ -128,9 +128,10 @@ function deriveSuggestedAction(
   automodPts: number,
 ): SuggestedAction {
   if (band === 'LIKELY_OK') return 'likely_approve';
-  if (band === 'CRITICAL' || band === 'HIGH') {
-    if (domainPts > 0 || keywordPts > 0 || automodPts > 0) return 'likely_remove';
-  }
+  // Any non-LIKELY_OK item with a hard signal (blocked domain, keyword match, or
+  // automod rule) warrants removal regardless of overall band — these signals are
+  // categorical, not merely additive.
+  if (domainPts > 0 || keywordPts > 0 || automodPts > 0) return 'likely_remove';
   return 'review';
 }
 

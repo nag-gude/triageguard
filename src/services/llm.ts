@@ -1,4 +1,4 @@
-import type { RedisClient } from '@devvit/public-api';
+import type { RedisClient } from '@devvit/redis';
 import { REDIS_KEYS } from '../config/constants.js';
 import type { LlmExplanation, TriageItem } from '../types.js';
 

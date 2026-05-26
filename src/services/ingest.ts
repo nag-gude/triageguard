@@ -1,4 +1,5 @@
-import type { RedditAPIClient, RedisClient } from '@devvit/public-api';
+import type { RedditClient } from '@devvit/reddit';
+import type { RedisClient } from '@devvit/redis';
 import { DEDUPE_WINDOW_MS } from '../config/constants.js';
 import { parseListSetting, scoreTriageItem } from '../config/scoring.js';
 import type { AuthorRecord, IngestInput, InstallationSettings, TriageItem } from '../types.js';
@@ -65,7 +66,7 @@ async function bumpAuthorReport(redis: RedisClient, username: string): Promise<v
 }
 
 async function fetchAuthorStats(
-  reddit: RedditAPIClient,
+  reddit: RedditClient,
   username: string,
 ): Promise<{ accountAgeDays: number; totalKarma: number }> {
   try {
@@ -81,7 +82,7 @@ async function fetchAuthorStats(
 }
 
 export async function ingestAndScore(
-  reddit: RedditAPIClient,
+  reddit: RedditClient,
   redis: RedisClient,
   settingsClient: { get: (k: string) => Promise<unknown>; getAll: () => Promise<Record<string, unknown>> },
   input: IngestInput,

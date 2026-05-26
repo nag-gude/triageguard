@@ -1,8 +1,9 @@
-import type { RedditAPIClient, RedisClient } from '@devvit/public-api';
+import type { RedditClient } from '@devvit/reddit';
+import type { RedisClient } from '@devvit/redis';
 import { FALLBACK_RULES_TEXT, REDIS_KEYS, WIKI_CACHE_TTL_SEC } from '../config/constants.js';
 
 export async function getWikiRulesExcerpt(
-  reddit: RedditAPIClient,
+  reddit: RedditClient,
   redis: RedisClient,
   subredditName: string,
   wikiPage: string,
@@ -38,12 +39,22 @@ export function matchRuleHeuristic(rulesText: string, signals: string[]): string
     .filter((l) => l.length > 10);
 
   const signalText = signals.join(' ').toLowerCase();
-  for (const line of lines) {
-    const lower = line.toLowerCase();
-    if (signalText.includes('scam') && (lower.includes('scam') || lower.includes('fraud'))) return line;
-    if (signalText.includes('spam') && lower.includes('spam')) return line;
-    if (signalText.includes('domain') && (lower.includes('link') || lower.includes('promot'))) return line;
-    if (signalText.includes('account') && (lower.includes('respect') || lower.includes('harass'))) return line;
+
+  // Check each category against all rules in priority order so a higher-priority
+  // signal (e.g. scam) always wins over a lower-priority one (e.g. domain/promotion)
+  // even when both appear in the same signal string.
+  const checks: Array<{ trigger: string; matchers: string[] }> = [
+    { trigger: 'scam', matchers: ['scam', 'fraud'] },
+    { trigger: 'spam', matchers: ['spam'] },
+    { trigger: 'domain', matchers: ['link', 'promot'] },
+    { trigger: 'account', matchers: ['respect', 'harass'] },
+  ];
+
+  for (const { trigger, matchers } of checks) {
+    if (!signalText.includes(trigger)) continue;
+    const match = lines.find((l) => matchers.some((m) => l.toLowerCase().includes(m)));
+    if (match) return match;
   }
+
   return lines[0] ?? 'Review against subreddit rules (wiki)';
 }
